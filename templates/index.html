@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Gerenciador de Tarefas - POO</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f4f4f9; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); }
+        form { margin-bottom: 20px; display: flex; gap: 10px; }
+        input[type="text"] { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
+        button { padding: 10px 15px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        ul { list-style: none; padding: 0; }
+        li { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #eee; }
+        .concluida { text-decoration: line-through; color: gray; }
+        .acoes { display: flex; gap: 5px; }
+        .btn-concluir { background: #28a745; }
+        .btn-remover { background: #dc3545; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Minha Lista de Tarefas (POO & Flask)</h2>
+        
+        <!-- Formulário para adicionar nova tarefa -->
+        <form action="/adicionar" method="POST">
+            <input type="text" name="descricao" placeholder="Digite uma nova tarefa..." required>
+            <button type="submit">Adicionar</button>
+        </form>
+
+        <!-- Lista de tarefas -->
+        <ul>
+            {% for tarefa in tarefas %}
+                <li>
+                    <span class="{% if tarefa.concluida %}concluida{% endif %}">
+                        {{ tarefa.descricao }}
+                    </span>
+                    <div class="acoes">
+                        {% if not tarefa.concluida %}
+                            <a href="/concluir/{{ tarefa.id }}"><button class="btn-concluir">Concluir</button></a>
+                        {% endif %}
+                        <a href="/remover/{{ tarefa.id }}"><button class="btn-remover">Remover</button></a>
+                    </div>
+                </li>
+            {% else %}
+                <li>Nenhuma tarefa cadastrada ainda.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
